@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+    <style>
+        #btn-annulla-prenotazione:hover{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Portale prenotazioni</h1>
+<form action="annulla_prenotazione.php" method="post">
+    <fieldset>
+        <legend>Inserisci il codice univoco della prenotazione</legend>
+        <input id="codice_prenotazione" type="text" placeholder="Codice univoco" name="codice_prenotazione"/>
+
+        <button type="button"><label for="modal-control">Invia richiesta</label></button>
+        <input type="checkbox" id="modal-control" class="modal">
+        <div>
+            <div class="card">
+                <label for="modal-control" class="modal-close"></label>
+                <h3 class="section">Modal</h3>
+                <p class="section">Sei sicuro di voler annullare la prenotazione?</p>
+                <input id="btn-annulla-prenotazione" class="section dark" type="submit" value="Annulla prenotazione"/>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</body>
+</html>

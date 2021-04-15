@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+    <style>
+        .responsive-label {
+            align-items: center;
+        }
+    </style>
+</head>
+<body style="text-align:center">
+<div style="max-width: fit-content; text-align:center; margin: 0 auto">
+    <form style="width: 100%; text-align: center" method="post" action="login.php">
+        <fieldset>
+            <legend>Login</legend>
+            <div class="row responsive-label">
+                <div class="col-sm">
+                    <label for="username">Username</label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" id="Username" placeholder="Username" name="username" required/>
+                </div>
+            </div>
+            <div class="row responsive-label">
+                <div class="col-sm">
+                    <label for="password">Password</label>
+                </div>
+                <div class="col-sm">
+                    <input type="password" id="password" placeholder="Password" name="password" required/>
+                </div>
+            </div>
+            <button class="primary" id="btn-sign-up">Accedi</button>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
