@@ -1,0 +1,24 @@
+#custom-layout {
+    min-height: 100vh;
+    overflow: auto;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+#custom-layout .trigger {
+    padding: 0 26px;
+    font-size: 27px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+    color: white;
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+}
+
+svg {
+    padding-bottom: 8px;
+}

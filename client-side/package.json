@@ -4,13 +4,17 @@
   "description": "Lato frontend del progetto sui tamponi",
   "main": "src/index.js",
   "scripts": {
-    "start": "parcel public/index.html"
+    "start": "parcel public/index.html",
+    "stop": "taskkill -F -IM node.exe"
   },
-  "author": "singh karanbir",
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.15.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",
