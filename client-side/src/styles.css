@@ -1,4 +1,4 @@
-#custom-layout {
+#fill-screen {
     min-height: 100vh;
     overflow: auto;
     position: sticky;
@@ -6,7 +6,7 @@
     top: 0;
 }
 
-#custom-layout .trigger {
+#fill-screen .trigger {
     padding: 0 26px;
     font-size: 27px;
     line-height: 64px;
@@ -15,10 +15,18 @@
     color: white;
 }
 
-.site-layout .site-layout-background {
-    background: #fff;
+.layout-header{
+    background-color: white;
 }
 
-svg {
+.layout-content {
+    background-color: white;
+}
+
+.ant-layout-sider svg{
     padding-bottom: 8px;
+}
+
+.anticon-calendar svg{
+    padding: 17
 }

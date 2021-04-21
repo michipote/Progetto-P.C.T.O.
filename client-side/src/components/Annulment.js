@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Form, Input, Button } from 'antd';
-import Layout, { Content, Header } from "antd/lib/layout/layout";
-
+import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 
 // Form di prenotazione
-export function Annulment(props) {
+export default function Annulment(props) {
     const [form] = Form.useForm();
 
     return (
         <>
             <Layout className="site-layout">
-                <Header className="site-layout-background" style={{ padding: 10, paddingLeft: 15 }}>
+                <Header className="layout-header" style={{ padding: 10, paddingLeft: 15 }}>
                     <h2>Annulla prenotazione</h2>
                 </Header>
                 <Content
-                    className="site-layout-background"
+                    className="layout-content"
                     style={{
                         margin: '24px 16px',
                         padding: 24,
@@ -24,6 +23,7 @@ export function Annulment(props) {
                 >
                     // TODO Inserisci il form di annullamento
                 </Content>
+                <Footer style={{ textAlign: 'center' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
             </Layout>
         </>
     );

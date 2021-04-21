@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Layout, Menu, Tooltip } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  HomeOutlined,
-  DeleteFilled,
-  CalendarOutlined,
-  LoginOutlined,
-  UserOutlined
-} from '@ant-design/icons';
+import { Layout} from 'antd';
 
 const { Header, Sider, Content } = Layout;
 
-export function Home(props) {
+export default function Home(props) {
   const [state, setState] = useState({
     collapsed: false
   });
@@ -26,35 +17,22 @@ export function Home(props) {
   };
 
   return (
-    <Layout id="custom-layout" >
-      <Sider collapsible collapsed={state.collapsed} onCollapse={toggle}>
-        <div>
-          {React.createElement(state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: toggle,
-          })}
-        </div>
-
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            Home
-            </Menu.Item>
-          <Menu.Item key="2" icon={<CalendarOutlined />}>
-            Prenota tampone
-            </Menu.Item>
-          <Menu.Item key="3" icon={<DeleteFilled />}>
-            Annulla prenotazione
-            </Menu.Item>
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            Registrazione
-            </Menu.Item>
-          <Menu.Item key="5" icon={<LoginOutlined />}>
-            Login
-            </Menu.Item>
-        </Menu>
-      </Sider>
-      
-      {props.children}
-    </Layout>
+    <>
+      <Layout className="site-layout">
+        <Header className="layout-header" style={{ padding: 10, paddingLeft: 15 }}>
+          <h2>Homepage</h2>
+        </Header>
+        <Content
+          className="layout-content"
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+          }}
+        >
+          //TODO Contenuto dell'homepage
+        </Content>
+      </Layout>
+    </>
   );
 }
