@@ -1,0 +1,32 @@
+#fill-screen {
+    min-height: 100vh;
+    overflow: auto;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+#fill-screen .trigger {
+    padding: 0 26px;
+    font-size: 27px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+    color: white;
+}
+
+.layout-header{
+    background-color: white;
+}
+
+.layout-content {
+    background-color: white;
+}
+
+.ant-layout-sider svg{
+    padding-bottom: 8px;
+}
+
+.anticon-calendar svg{
+    padding: 17
+}
