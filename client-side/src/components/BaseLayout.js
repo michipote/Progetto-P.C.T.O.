@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-
-import { Button, Layout, Menu, Tooltip } from 'antd';
+import React, { useState } from "react";
+import { Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -10,38 +9,32 @@ import {
   LoginOutlined,
   UserOutlined
 } from '@ant-design/icons';
-
 import { Link, BrowserRouter } from "react-router-dom";
-
 const { Header, Sider, Content } = Layout;
 
-// Layout del sito
+// Layout base del sito
 export default function BaseLayout(props) {
+  // State del layout
   const [state, setState] = useState({
     collapsed: false
   });
 
   // Espande/Comprime il menu
-  let toggle = () => {
+  const toggleMenu = () => {
     setState({
       collapsed: !state.collapsed
     });
   };
-
-  function changeURL(route) {
-    console.log(route);
-    window.location.href = "http://localhost:1234" + route;
-  }
-
+  
   return (
     <>
       <BrowserRouter>
         <Layout id="fill-screen">
-          <Sider collapsible collapsed={state.collapsed} onCollapse={toggle}>
+          <Sider collapsible collapsed={state.collapsed} onCollapse={toggleMenu}>
             <div>
               {React.createElement(state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
-                onClick: toggle,
+                onClick: toggleMenu,
               })}
             </div>
 
