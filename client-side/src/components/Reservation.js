@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Form, Input, Button, InputNumber, DatePicker } from 'antd';
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
+const { getData, postData } = require('../ws');
 
 // Form di prenotazione
 export default function Reservation(props) {
-    const [form] = Form.useForm();
-
     const layout = {
         labelCol: {
             span: 0,
@@ -14,15 +13,6 @@ export default function Reservation(props) {
         wrapperCol: {
             span: 8,
         },
-    };
-
-    const validateMessages = {
-        required: 'Campo obbligatorio',
-    };
-
-    const onFinish = (values) => {
-        let formattedValues = { ...values, data: values.data.format('YYYY-MM-DD') };
-        console.log(formattedValues);
     };
 
     const config = {
@@ -35,20 +25,30 @@ export default function Reservation(props) {
         ],
     };
 
+    const validateMessages = {
+        required: 'Campo obbligatorio',
+    };
+
+    const onFinish = (values) => {
+        let formattedValues = { ...values, data: values.data.format('YYYY-MM-DD') };
+
+        postData('http://localhost:63342/server-side/lista_prenotazioni.php', formattedValues)
+            .then(data => {
+                console.log(data);
+            });
+    };
+
+    // useEffect(() => {
+    //     getUnavailableDates('http://localhost:63342/server-side/nonDisponibili.php');
+    // }, [])
+
     return (
         <>
             <Layout className="site-layout">
-                <Header className="layout-header" style={{ padding: 10, paddingLeft: 15 }}>
+                <Header className="layout-header">
                     <h2>Portale prenotazioni</h2>
                 </Header>
-                <Content
-                    className="layout-content"
-                    style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                    }}
-                >
+                <Content className="layout-content">
                     <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
                         <Form.Item
                             name={['codice_fiscale']}

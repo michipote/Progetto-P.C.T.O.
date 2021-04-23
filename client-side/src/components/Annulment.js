@@ -10,17 +10,10 @@ export default function Annulment(props) {
     return (
         <>
             <Layout className="site-layout">
-                <Header className="layout-header" style={{ padding: 10, paddingLeft: 15 }}>
+                <Header className="layout-header">
                     <h2>Annulla prenotazione</h2>
                 </Header>
-                <Content
-                    className="layout-content"
-                    style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                    }}
-                >
+                <Content className="layout-content">
                     // TODO Inserisci il form di annullamento
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
