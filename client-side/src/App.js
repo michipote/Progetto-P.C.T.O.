@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route} from "react-router";
-import Annulment from "./components/Annulment";
+import Annulment from "./components/Annullment/Annulment";
 import Home from "./components/Home";
 import Reservation from "./components/Reservation";
 import itIT from "antd/es/locale/it_IT";
