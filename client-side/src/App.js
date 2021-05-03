@@ -10,6 +10,7 @@ import 'moment/locale/it';
 import { IntlProvider } from "react-intl";
 import { ConfigProvider } from "antd";
 import BaseLayout from "./components/BaseLayout";
+import Registration from "./components/Registration";
 
 // Componente principale del app: definisce inoltre le rotte
 export default function App(props) {
@@ -39,6 +40,7 @@ export default function App(props) {
                     <BaseLayout>
                         <Route exact path="/annullamento" component={Annulment} />
                         <Route exact path="/prenotazione" component={Reservation} />
+                        <Route exact path="/registrazione" component={Registration} />
                         <Route exact path="/" component={Home} />
                     </BaseLayout>
                 </IntlProvider>
