@@ -1,23 +1,20 @@
 import { Button } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 const { getData, postData } = require('../../ws');
 
 //> Modale che appare per chiedere conferma all'utente
 export default function ConfirmModal(props) {
     //> Annullamento della prenotazione
     const handleOk = () => {
-
-
         props.modal[1]({ ...props.modal[0], loading: true });
 
-        // TODO Aspettare lo script in php
-        // postData('http://localhost:63342/server-side/<file_name>.php', { key: props.unique_key })
-        //     .then(data => {
-        //          console.log(data); // RISPOSTA
-                    // TODO Controllare le risposte
-        //          props.modal[1]({ visible: false, loading: false });
-        //     });
+        postData('http://localhost:63342/server-side/annulla_prenotazione.php', { codice: props.unique_key })
+            .then(data => {
+                 console.log(data); // RISPOSTA
+                 props.modal[1]({ visible: false, loading: false });
+            });
     };
 
     //> Annullamento cancellato la prenotazione
