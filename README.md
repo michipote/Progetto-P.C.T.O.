@@ -13,7 +13,7 @@
 * Prenotazioni del giorno
 * Numero prenotazioni tra due date
   * grafico
-<br>
+
 ## *Interfaccia in base all'utente*
   ### Paziente
   * Area di registrazione
