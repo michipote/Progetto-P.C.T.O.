@@ -5,7 +5,7 @@
 * Accesso
 * Prenotazione tampone
   * limitazione delle date disponibili
-  * fornimento Qrcode
+  * esposizione QRcode
   * scelta della sede e della data attraverso un calendario
 * Annullamento prenotazione
 * Esecuzione tampone
