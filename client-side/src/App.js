@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Route} from "react-router";
+import React, { useState, useEffect, useContext } from "react";
+import { Route } from "react-router";
 import Annulment from "./components/Annullment/Annulment";
 import Home from "./components/Home";
 import Reservation from "./components/Reservation";
@@ -11,14 +11,19 @@ import { IntlProvider } from "react-intl";
 import { ConfigProvider } from "antd";
 import BaseLayout from "./components/BaseLayout";
 import Registration from "./components/Registration";
+import Login from "./components/Login";
+import { AppContext } from ".";
+import ReservationsList from "./components/ReservationsList";
 
 // Componente principale del app: definisce inoltre le rotte
 export default function App(props) {
     // State del componente
-    const [state, setState] = useState({
+    const [localstate, setState] = useState({
         locale: itIT,
         lang: 'it'
     });
+
+    const { state, dispatch } = useContext(AppContext);
 
     // Serve per settare una determinata lingua
     const changeLocale = (lang) => {
@@ -35,12 +40,19 @@ export default function App(props) {
 
     return (
         <>
-            <ConfigProvider locale={state.locale}>
-                <IntlProvider locale={state.lang}>
+            <ConfigProvider locale={localstate.locale}>
+                <IntlProvider locale={localstate.lang}>
                     <BaseLayout>
                         <Route exact path="/annullamento" component={Annulment} />
                         <Route exact path="/prenotazione" component={Reservation} />
-                        <Route exact path="/registrazione" component={Registration} />
+                        {
+                            state.user.email === null ?
+                                <>
+                                    <Route exact path="/registrazione" component={Registration} />
+                                    <Route exact path="/login" component={Login} />
+                                </> : null
+                        }
+                        <Route exact path="/lista_prenotazioni" component={ReservationsList} />
                         <Route exact path="/" component={Home} />
                     </BaseLayout>
                 </IntlProvider>
