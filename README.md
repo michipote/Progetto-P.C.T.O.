@@ -32,10 +32,6 @@
   * Collegamento stati prenotazioni e utenti
   * Collegamento sedi e prenotazioni
 
-## *Opzioni aggiuntive*
-* Quando si prenota il tampone, e il giorno del tampone fare in modo che arrivi una notifica di ricordo/conferma
-* Possibilità inerenti agli argomenti di sistemi (in particolare sicurezza)
-
 ### GPO
   * Diagramma di Gantt
   * Programmazione e suddivisione delle attività
