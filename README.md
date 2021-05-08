@@ -32,12 +32,12 @@
   * Collegamento stati prenotazioni e utenti
   * Collegamento sedi e prenotazioni
 
-### GPO
+## GPO
   * Diagramma di Gantt
   * Programmazione e suddivisione delle attività
   * Documentazione
 
-### Presentazione
+## Presentazione
 * Presentazione del progetto con power point
 * Esposizione applicazione
 <br>
