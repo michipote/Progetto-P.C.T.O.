@@ -1,0 +1,57 @@
+#fill-screen {
+    min-height: 100vh;
+    overflow: auto;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.layout-header {
+    background-color: white;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+#fill-screen .trigger {
+    padding: 0 26px;
+    font-size: 27px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+    color: white;
+}
+
+.layout-content {
+    background-color: white;
+    margin: 24px 16px;
+    padding: 24px;
+    min-height: 280px;
+}
+
+.ant-layout-sider svg {
+    margin-bottom: 8px;
+}
+
+.ant-form-item-children-icon svg {
+    margin-bottom: 8px;
+}
+
+.page-footer {
+    text-align: center;
+}
+
+#components-form-demo-normal-login .login-form {
+    max-width: 300px;
+}
+
+#components-form-demo-normal-login .login-form-forgot {
+    float: right;
+}
+
+#components-form-demo-normal-login .ant-col-rtl .login-form-forgot {
+    float: left;
+}
+
+#components-form-demo-normal-login .login-form-button {
+    width: 100%;
+}
