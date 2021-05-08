@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -10,29 +10,32 @@ import {
   UserOutlined
 } from '@ant-design/icons';
 import { Link, BrowserRouter } from "react-router-dom";
+import { AppContext } from "..";
 const { Header, Sider, Content } = Layout;
 
 // Layout base del sito
 export default function BaseLayout(props) {
   // State del layout
-  const [state, setState] = useState({
+  const [localstate, setState] = useState({
     collapsed: false
   });
+
+  const { state, dispatch } = useContext(AppContext);
 
   // Espande/Comprime il menu
   const toggleMenu = () => {
     setState({
-      collapsed: !state.collapsed
+      collapsed: !localstate.collapsed
     });
   };
-  
+
   return (
     <>
       <BrowserRouter>
         <Layout id="fill-screen">
-          <Sider collapsible collapsed={state.collapsed} onCollapse={toggleMenu}>
+          <Sider collapsible collapsed={localstate.collapsed} onCollapse={toggleMenu}>
             <div>
-              {React.createElement(state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              {React.createElement(localstate.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: toggleMenu,
               })}
@@ -48,12 +51,20 @@ export default function BaseLayout(props) {
               <Menu.Item key="3" icon={<DeleteFilled />}>
                 <Link to="/annullamento">Annulla prenotazione</Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<UserOutlined />}>
-                <Link to="/registrazione">Registrazione</Link>
-              </Menu.Item>
-              <Menu.Item key="5" icon={<LoginOutlined />}>
-                <Link to="/login">Login</Link>
-              </Menu.Item>
+              {
+                state.user.email === null ?
+                  <>
+                    <Menu.Item key="4" icon={<UserOutlined />}>
+                      <Link to="/registrazione">Registrazione</Link>
+                    </Menu.Item>
+                    <Menu.Item key="5" icon={<LoginOutlined />}>
+                      <Link to="/login">Login</Link>
+                    </Menu.Item>
+                  </> : null
+              }
+              <Menu.Item key="6" icon={<UserOutlined />}>
+                    <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
+                  </Menu.Item>
             </Menu>
           </Sider>
           {props.children}
