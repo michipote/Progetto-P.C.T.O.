@@ -1,225 +1,164 @@
 import React, { useState } from 'react';
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
-import Layout, { Content, Header } from 'antd/lib/layout/layout';
-const { Option } = Select;
-
-const residences = [
-    {
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [
-            {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                    {
-                        value: 'xihu',
-                        label: 'West Lake',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [
-            {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                    {
-                        value: 'zhonghuamen',
-                        label: 'Zhong Hua Men',
-                    },
-                ],
-            },
-        ],
-    },
-];
-const formItemLayout = {
-    labelCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 8,
-        },
-    },
-    wrapperCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 16,
-        },
-    },
-};
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
+import { Form, Input, Button, Image, Row, Col } from 'antd';
+import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
+import assets from "../assets/*.png";
+import { BarcodeOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 
 export default function Registration(props) {
     const [form] = Form.useForm();
 
+    const formItemLayout = {
+        wrapperCol: {
+            xs: {
+                span: 8,
+                offset: 0,
+            },
+            sm: {
+                span: 8,
+                offset: 8,
+            },
+        },
+    };
+
+    const tailFormItemLayout = {
+        wrapperCol: {
+            xs: {
+                span: 0,
+                offset: 0,
+            },
+            sm: {
+                span: 0,
+                offset: 11,
+            },
+        },
+    };
+
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
+        //TODO fetch al backend
     };
-
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select
-                style={{
-                    width: 70,
-                }}
-            >
-                <Option value="39">+39</Option>
-            </Select>
-        </Form.Item>
-    );
-    const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-    const onWebsiteChange = (value) => {
-        if (!value) {
-            setAutoCompleteResult([]);
-        } else {
-            setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
-        }
-    };
-
-    const websiteOptions = autoCompleteResult.map((website) => ({
-        label: website,
-        value: website,
-    }));
 
     return (
         <>
             <Layout className="site-layout">
                 <Header className="layout-header">
-                    <h2>Kan Vax</h2>
+                    <h2>Registrazione</h2>
                 </Header>
                 <Content className="layout-content">
-                    <Form
-                        {...formItemLayout}
-                        form={form}
-                        name="register"
-                        onFinish={onFinish}
-                        initialValues={{
-                            prefix: '39',
-                        }}
-                        scrollToFirstError
-                    >
-                        <Form.Item
-                            name="email"
-                            label="E-mail"
-                            rules={[
-                                {
-                                    type: 'email',
-                                    message: 'The input is not valid E-mail!',
-                                },
-                                {
-                                    required: true,
-                                    message: 'Please input your E-mail!',
-                                },
-                            ]}
+                    <div>
+                        <Row>
+                            <Col span={8}></Col>
+                            <Col span={8} style={{ display: 'flex' }}>
+                                <img style={{ margin: 'auto' }} width={165} src={assets.swab}></img>
+                            </Col>
+                            <Col span={8}></Col>
+                        </Row>
+                        
+                        <Form
+                            {...formItemLayout}
+                            form={form}
+                            name="register"
+                            onFinish={onFinish}
+                            scrollToFirstError
                         >
-                            <Input />
-                        </Form.Item>
+                            <Form.Item
+                                name="nome"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Inserisci il nome'
+                                    }
+                                ]}
+                            >
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nome" style={{marginTop: 20}} />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="password"
-                            label="Password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your password!',
-                                },
-                            ]}
-                            hasFeedback
-                        >
-                            <Input.Password />
-                        </Form.Item>
+                            <Form.Item
+                                name="cognome"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Inserisci il cognome'
+                                    }
+                                ]}
+                            >
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Cognome" />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="confirm"
-                            label="Confirm Password"
-                            dependencies={['password']}
-                            hasFeedback
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please confirm your password!',
-                                },
-                                ({ getFieldValue }) => ({
-                                    validator(_, value) {
-                                        if (!value || getFieldValue('password') === value) {
-                                            return Promise.resolve();
-                                        }
-
-                                        return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                            <Form.Item
+                                name={['fiscale']}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Inserisci il codice fiscale'
                                     },
-                                }),
-                            ]}
-                        >
-                            <Input.Password />
-                        </Form.Item>
+                                ]}
+                            >
+                                <Input prefix={<BarcodeOutlined className="site-form-item-icon" />} placeholder="Codice Fiscale" maxLength={16} />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="phone"
-                            label="Phone Number"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your phone number!',
-                                },
-                            ]}
-                        >
-                            <Input
-                                addonBefore={prefixSelector}
-                                style={{
-                                    width: '100%',
-                                }}
-                            />
-                        </Form.Item>
+                            <Form.Item
+                                name="email"
+                                rules={[
+                                    {
+                                        type: 'email',
+                                        message: ''
+                                    },
+                                    {
+                                        required: true,
+                                        message: 'Inserisci una email',
+                                    },
+                                ]}
+                            >
+                                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+                            </Form.Item>
 
-                        <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                            <Row gutter={8}>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="captcha"
-                                        noStyle
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input the captcha you got!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={12}>
-                                    <Button>Get captcha</Button>
-                                </Col>
-                            </Row>
-                        </Form.Item>
+                            <Form.Item
+                                name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Inserisci una password',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
+                            </Form.Item>
 
-                        <Form.Item {...tailFormItemLayout}>
-                            <Button type="primary" htmlType="submit">
-                                Register
-                            </Button>
-                        </Form.Item>
-                    </Form>
+                            <Form.Item
+                                name="confirm"
+                                dependencies={['password']}
+                                hasFeedback
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Inserisci di nuovo la password',
+                                    },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('password') === value) {
+                                                return Promise.resolve();
+                                            }
+
+                                            return Promise.reject(new Error('Le password non coincidono'));
+                                        },
+                                    }),
+                                ]}
+                            >
+                                <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Conferma password" />
+                            </Form.Item>
+
+                            <Form.Item {...tailFormItemLayout}>
+                                <Button type="primary" htmlType="submit">
+                                    Registrati
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
                 </Content>
+
+                <Footer style={{ textAlign: 'center' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
             </Layout>
         </>
     );

@@ -33,6 +33,8 @@ export default function Annulment(props) {
         setKey(values.key);
 
         setModalState({ ...modal, visible: true });
+        //TODO fetch backend
+        //TODO Gestire risposta
     }
 
     //> Messaggio visualizzato se trova dei campi vuoti, ma obbligatori
