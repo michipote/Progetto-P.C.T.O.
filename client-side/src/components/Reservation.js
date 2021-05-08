@@ -14,9 +14,6 @@ export default function Reservation(props) {
     // Lista sedi
     const [siteList, setSiteList] = useState([]);
 
-    // Sede scelta
-    const [site, setSite] = useState("Scegli una sede");
-
     // Limiti (min e max) del DatePicker, DAL GIORNO CORRENTE (OGGI)
     const min = 3;
     const max = 17;
