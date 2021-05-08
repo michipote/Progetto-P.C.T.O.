@@ -31,16 +31,16 @@
   * Assegna il personale dello staff alle sedi
   * Collegamento stati prenotazioni e utenti
   * Collegamento sedi e prenotazioni
-<br>
+
 ## *Opzioni aggiuntive*
 * Quando si prenota il tampone, e il giorno del tampone fare in modo che arrivi una notifica di ricordo/conferma
 * Possibilità inerenti agli argomenti di sistemi (in particolare sicurezza)
-<br>
+
 ### GPO
   * Diagramma di Gantt
   * Programmazione e suddivisione delle attività
   * Documentazione
-<br>
+
 ### Presentazione
 * Presentazione del progetto con power point
 * Esposizione applicazione
