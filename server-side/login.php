@@ -1,12 +1,12 @@
 <?php
 include_once "./config.php";
 $_POST = json_decode(file_get_contents("php://input"), true);
-$fiscale = 'pio';//$_POST['fiscale'];
-$password = 'dio';//$_POST['password'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 
-$sql = "SELECT fiscale ,password, tipo FROM account WHERE fiscale = :fiscale";
+$sql = "SELECT * FROM account WHERE email = :email LIMIT 0, 1";
 $stmt = $pdo->prepare($sql);
-$stmt->execute(['fiscale' => $fiscale]);
+$stmt->execute(['email' => $email]);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$result) {
     echo '{"result" : "failed"}';
@@ -14,9 +14,26 @@ if (!$result) {
 }
 $pw_hash = $result['password'];
 
-// Verifica se e' corretta
+if($result['tipo'] == 1){
+    if (password_verify($password, $pw_hash)) {
+        $account = $result['id'];
+        $sql = "SELECT * 
+FROM sede, assegnato 
+WHERE sede.id = assegnato.fk_sede 
+AND '$account' = assegnato fk_staff
+ORDER BY assegnato.data DESC 
+LIMIT 0, 1";
+        $stmt = $pdo->query($sql);;
+        $result['sede'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($result);
+    } else {
+        echo '{"result" : "failed"}';
+    }
+}
+
 if (password_verify($password, $pw_hash)) {
-    echo $result['tipo'];
+
+    echo json_encode($result);
 } else {
     echo '{"result" : "failed"}';
 }
