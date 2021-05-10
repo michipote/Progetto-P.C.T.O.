@@ -1,13 +1,45 @@
-# Prenotazioni per il tampone
+# *KAN VAX: PORTALE TAMPONI*
 
-## Esempio didattico per la gestione delle prenotazioni dei tamponi
+## *Funzionalità principali*
+* Registrazione
+* Accesso
+* Prenotazione tampone
+  * limitazione delle date disponibili
+  * esposizione QRcode
+  * scelta della sede e della data attraverso un calendario
+* Annullamento prenotazione
+* Esecuzione tampone
+* Lista delle prenotazioni
+* Prenotazioni del giorno
+* Numero prenotazioni tra due date
+  * grafico
 
-Durante l'epidemia di COVID-19, una delle esigenze è stata quella di gestire la prenotazione dei tamponi.
-Partendo da questo spunto, verrà sviluppata un'applicazione che risolva questo problema.
+## *Interfaccia in base all'utente*
+  ### Paziente
+  * Area di registrazione
+  * Area di accesso
+  * Area di prenotazione tampone
+    * inserimento del Codice fiscale e della data
 
-### Funzionalità
+  ### Staff
+  * Può vedere la lista dei pazienti del giorno
+  * Può eseguire un tampone
+  * Può far l'accesso
 
-* Inserire una prenotazione con **codice fiscale** e **data** dell'appuntamento.
-* Scegliere la **sede** in cui effettuare il tampone
-* Consultare l'**esito del tempone**
-* **Annullare** una prenotazione
+  ### Admin
+  * Può visualizzare tutto
+  * Assegna il personale dello staff alle sedi
+  * Collegamento stati prenotazioni e utenti
+  * Collegamento sedi e prenotazioni
+
+## GPO
+  * Diagramma di Gantt
+  * Programmazione e suddivisione delle attività
+  * Documentazione
+
+## Presentazione
+* Presentazione del progetto con power point
+* Esposizione applicazione
+<br>
+<br>
+<br>
