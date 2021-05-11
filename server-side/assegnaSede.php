@@ -8,4 +8,4 @@ $data = [
 $sql = "INSERT INTO assegnato (data, fk_staff, fk_sede) VALUES (current_date(), (
 SELECT account.id FROM account WHERE account.fiscale = :fiscale LIMIT 1
 ), :sede)";
-$pdo->prepare($sql)->execute($data);
+echo json_encode($pdo->prepare($sql)->execute($data));
