@@ -1,7 +1,4 @@
-@font-face {
-    font-family: 'medical-font';
-    src        : url('./fonts/medical-shape.otf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
 
 #fill-screen {
     min-height: 100vh;
@@ -15,6 +12,11 @@
     background-color: white;
     padding         : 10px;
     padding-left    : 15px;
+}
+
+.header-title {
+    font-family: 'Calistoga';
+    font-weight: bold;
 }
 
 #fill-screen .trigger {
