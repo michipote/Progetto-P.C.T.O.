@@ -5,4 +5,4 @@ $data = [
     'fiscale' => $_POST['codice']
 ];
 $sql = "UPDATE account SET tipo = 1 WHERE fiscale = :fiscale AND tipo = 0";
-$pdo->prepare($sql)->execute($data);
+echo json_encode($pdo->prepare($sql)->execute($data));
