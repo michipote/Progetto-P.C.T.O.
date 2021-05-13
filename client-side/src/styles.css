@@ -1,31 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
 #fill-screen {
     min-height: 100vh;
-    overflow: auto;
-    position: sticky;
-    left: 0;
-    top: 0;
+    overflow  : auto;
+    position  : sticky;
+    left      : 0;
+    top       : 0;
 }
 
 .layout-header {
     background-color: white;
-    padding: 10px;
-    padding-left: 15px;
+    padding         : 10px;
+    padding-left    : 15px;
+}
+
+.header-title {
+    font-family: 'Calistoga';
+    font-weight: bold;
 }
 
 #fill-screen .trigger {
-    padding: 0 26px;
-    font-size: 27px;
+    padding    : 0 26px;
+    font-size  : 27px;
     line-height: 64px;
-    cursor: pointer;
-    transition: color 0.3s;
-    color: white;
+    cursor     : pointer;
+    transition : color 0.3s;
+    color      : white;
 }
 
 .layout-content {
     background-color: white;
-    margin: 24px 16px;
-    padding: 24px;
-    min-height: 280px;
+    margin          : 24px 16px;
+    padding         : 24px;
+    min-height      : 280px;
 }
 
 .ant-layout-sider svg {

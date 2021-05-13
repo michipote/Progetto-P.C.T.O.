@@ -17,6 +17,9 @@ function appReducer(state, action) {
     case 'login':
       newState.user.email = action.payload.email
       break;
+    case 'change selectedKey':
+      newState.selectedKey = action.payload.selectedKey
+      break;
   }
   return newState;
 }
@@ -27,12 +30,9 @@ function Index() {
     user: {
       email: null,
       level: null,
-    }
+    },
+    selectedKey: 'home'
   });
-
-  useEffect(() => {
-
-  }, []) 
 
   return (
     <>

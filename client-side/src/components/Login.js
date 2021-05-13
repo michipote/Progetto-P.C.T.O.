@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form, Input, Button, Checkbox, Image, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
@@ -45,10 +45,14 @@ export default function Login(props) {
         //TODO Salvare i dati nel context (comunque si deve gestire la risposta)
     };
 
+    useEffect(() => {
+        dispatch({type: 'change selectedKey', payload: {selectedKey: 'login'}});
+    }, [])
+
     return (
         <Layout className="site-layout">
             <Header className="layout-header">
-                <h2>Login</h2>
+                <h2 className="header-title">Login</h2>
             </Header>
             <Content className="layout-content">
                 <div className="login-form-container">
