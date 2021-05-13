@@ -1,6 +1,5 @@
 <?php
 include_once "./config.php";
-$_POST = json_decode(file_get_contents("php://input"), true);
 $sede = $_POST['sede'];
 $sql = "
 SELECT data_prenotazione AS data_disabilitata
