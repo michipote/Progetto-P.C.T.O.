@@ -8,7 +8,7 @@ $data = [
     'data_prenotazione' => $_POST['data'],
     'sede' => $_POST['sede']
 ];
-$sql = "SELECT COUNT(*) AS persone FROM prenotazione, sede WHERE data_prenotazione = :data_prenmotazione AND sede.id = prenotazione.fk_sede";
+$sql = "SELECT COUNT(*) AS persone FROM prenotazione, sede WHERE data_prenotazione = :data_prenotazione AND sede.id = prenotazione.fk_sede";
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute(
