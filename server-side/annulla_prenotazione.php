@@ -1,7 +1,7 @@
 <?php
 include_once "./config.php";
 $fiscale = $_POST['fiscale'];
-$univoco = $_POST['codice'];
+$univoco = $_POST['univoco'];
 
 $stmt = $pdo->query("SELECT fiscale FROM prenotazione WHERE fiscale = '$fiscale'");
 if (count($stmt->fetchAll(PDO::FETCH_ASSOC)) === 0) {
