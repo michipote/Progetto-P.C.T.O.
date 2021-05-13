@@ -17,7 +17,7 @@ export default function InfectionMap(props) {
         <>
             <Layout className="site-layout">
                 <Header className="layout-header" style={{ backgroundColor: '#222222' }}>
-                    <h2 style={{ color: 'lightgray' }}>Mappa contagio</h2>
+                    <h2 className="header-title" style={{ color: 'lightgray' }}>Mappa contagio</h2>
                 </Header>
                 <iframe src="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" style={{ width: '100%', height: '100%' }}></iframe>
                 <Footer style={{ textAlign: 'center', backgroundColor: '#222222', color: 'lightgray' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>

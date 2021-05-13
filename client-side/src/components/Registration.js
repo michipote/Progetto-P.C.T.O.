@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Button, Image, Row, Col } from 'antd';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import assets from "../assets/*.png";
 import { BarcodeOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { AppContext } from '..';
 
 export default function Registration(props) {
     const [form] = Form.useForm();
+    const {state, dispatch} = useContext(AppContext);
 
     const formItemLayout = {
         wrapperCol: {
@@ -33,6 +35,10 @@ export default function Registration(props) {
         },
     };
 
+    useEffect(() => {
+        dispatch({type: 'change selectedKey', payload: {selectedKey: 'registrazione'}});
+    }, [])
+
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
         //TODO fetch al backend
@@ -42,7 +48,7 @@ export default function Registration(props) {
         <>
             <Layout className="site-layout">
                 <Header className="layout-header">
-                    <h2>Registrazione</h2>
+                    <h2 className="header-title">Registrazione</h2>
                 </Header>
                 <Content className="layout-content">
                     <div>

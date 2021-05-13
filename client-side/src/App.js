@@ -14,6 +14,10 @@ import Registration from "./components/Registration";
 import Login from "./components/Login";
 import { AppContext } from ".";
 import ReservationsList from "./components/ReservationsList";
+import Execution from "./components/Execution/Execution";
+import InfectionMap from "./components/InfectionMap";
+import Vaccines from "./components/Vaccines";
+import {PublicRoute, PrivateRoute} from "./SpecialRoutes"
 
 // Componente principale del app: definisce inoltre le rotte
 export default function App(props) {
@@ -43,17 +47,15 @@ export default function App(props) {
             <ConfigProvider locale={localstate.locale}>
                 <IntlProvider locale={localstate.lang}>
                     <BaseLayout>
-                        <Route exact path="/annullamento" component={Annulment} />
-                        <Route exact path="/prenotazione" component={Reservation} />
-                        {
-                            state.user.email === null ?
-                                <>
-                                    <Route exact path="/registrazione" component={Registration} />
-                                    <Route exact path="/login" component={Login} />
-                                </> : null
-                        }
+                        <PublicRoute exact path="/situazione_vaccini" restricted={false} component={Vaccines} />
+                        <PublicRoute exact path="/mappa_contagio" restricted={false} component={InfectionMap} />
+                        <Route exact path="/esegui_tampone" component={Execution} />
+                        <PublicRoute exact path="/annullamento" restricted={false} component={Annulment} />
+                        <PublicRoute exact path="/prenotazione" restricted={false} component={Reservation} />
+                        <PublicRoute exact path="/registrazione" restricted={true} component={Registration} />
+                        <PublicRoute exact path="/login" restricted={true} component={Login} />
                         <Route exact path="/lista_prenotazioni" component={ReservationsList} />
-                        <Route exact path="/" component={Home} />
+                        <PublicRoute exact path="/" restricted={false} component={Home} />
                     </BaseLayout>
                 </IntlProvider>
             </ConfigProvider>

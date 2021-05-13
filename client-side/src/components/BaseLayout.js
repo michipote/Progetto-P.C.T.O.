@@ -1,13 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   HomeOutlined,
-  DeleteFilled,
   CalendarOutlined,
   LoginOutlined,
-  UserOutlined
+  UserOutlined,
+  EditOutlined,
+  UnorderedListOutlined,
+  GlobalOutlined,
+  DeleteOutlined,
+  ShareAltOutlined
 } from '@ant-design/icons';
 import { Link, BrowserRouter } from "react-router-dom";
 import { AppContext } from "..";
@@ -33,7 +37,7 @@ export default function BaseLayout(props) {
     <>
       <BrowserRouter>
         <Layout id="fill-screen">
-          <Sider collapsible collapsed={localstate.collapsed} onCollapse={toggleMenu}>
+          <Sider collapsible={true} collapsed={localstate.collapsed} onCollapse={toggleMenu}>
             <div>
               {React.createElement(localstate.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
@@ -41,30 +45,43 @@ export default function BaseLayout(props) {
               })}
             </div>
 
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-              <Menu.Item key="1" icon={<HomeOutlined />}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} selectedKeys={[state.selectedKey]}>
+              <Menu.Item key="user" icon={<UserOutlined style={{ color: '#fec36b' }} />} disabled style={{ WebkitTextFillColor: '#fec36b' }}>
+                Karanbir Singh
+              </Menu.Item>
+              <Menu.Item key="home" icon={<HomeOutlined />}>
                 <Link to="/">Home</Link>
               </Menu.Item>
-              <Menu.Item key="2" icon={<CalendarOutlined />}>
+              <Menu.Item key="prenotazione" icon={<CalendarOutlined />}>
                 <Link to="/prenotazione">Prenota tampone</Link>
               </Menu.Item>
-              <Menu.Item key="3" icon={<DeleteFilled />}>
+              <Menu.Item key="annullamento" icon={<DeleteOutlined />}>
                 <Link to="/annullamento">Annulla prenotazione</Link>
               </Menu.Item>
-              {
+              {/* {
                 state.user.email === null ?
-                  <>
-                    <Menu.Item key="4" icon={<UserOutlined />}>
-                      <Link to="/registrazione">Registrazione</Link>
-                    </Menu.Item>
-                    <Menu.Item key="5" icon={<LoginOutlined />}>
-                      <Link to="/login">Login</Link>
-                    </Menu.Item>
-                  </> : null
-              }
-              <Menu.Item key="6" icon={<UserOutlined />}>
-                    <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
-                  </Menu.Item>
+                  <> */}
+              <Menu.Item key="registrazione" icon={<UserOutlined />}>
+                <Link to="/registrazione">Registrazione</Link>
+              </Menu.Item>
+              <Menu.Item key="login" icon={<LoginOutlined />}>
+                <Link to="/login">Login</Link>
+              </Menu.Item>
+
+              <Menu.Item key="lista_prenotazioni" icon={<UnorderedListOutlined />}>
+                <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
+              </Menu.Item>
+              <Menu.Item key="esecuzione" icon={<EditOutlined />}>
+                <Link to="/esegui_tampone">Esegui tampone</Link>
+              </Menu.Item>
+              {/* </> : null
+              } */}
+              <Menu.Item key="mappa_contagio" icon={<ShareAltOutlined />}>
+                <Link to="/mappa_contagio">Mappa contagio</Link>
+              </Menu.Item>
+              <Menu.Item key="situazione_vaccini" icon={<GlobalOutlined />}>
+                <Link to="/situazione_vaccini">Situazione vaccini</Link>
+              </Menu.Item>
             </Menu>
           </Sider>
           {props.children}

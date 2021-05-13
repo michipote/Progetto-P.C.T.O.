@@ -6,6 +6,7 @@ import login from "../assets/login.png";
 import { Link } from "react-router-dom";
 import { Footer } from "antd/lib/layout/layout";
 import { AppContext } from "..";
+import title from "../assets/title.png";
 
 const { Header, Sider, Content } = Layout;
 
@@ -20,8 +21,8 @@ export default function Home(props) {
   return (
     <>
       <Layout className="site-layout">
-        <Header className="layout-header">
-          <h2 style={{ fontFamily: 'medical-font', fontSize: 38 }}>Kan Vax</h2>
+        <Header className="layout-header" style={{ height: 80, padding: 0, paddingLeft: 10 }}>
+          <img src={title} style={{ marginTop: 7 }}></img>
         </Header>
         <Content className="layout-content">
           <div className="site-card-wrapper">

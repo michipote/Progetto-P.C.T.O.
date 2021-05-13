@@ -18,7 +18,7 @@ export default function Vaccines(props) {
         <>
             <Layout className="site-layout">
                 <Header className="layout-header">
-                    <h2>Situazione delle vaccinazioni in Italia</h2>
+                    <h2 className="header-title">Situazione delle vaccinazioni in Italia</h2>
                 </Header>
                 <Content className="layout-content">
                     <Card

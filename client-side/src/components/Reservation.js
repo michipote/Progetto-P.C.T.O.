@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Input, Button, InputNumber, DatePicker, Space, Dropdown, Menu, Select, Cascader } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import moment from "moment";
-import { Option } from "antd/lib/mentions";
+import { AppContext } from "..";
 const { getData, postData } = require('../ws');
 
 // Form di prenotazione
 export default function Reservation(props) {
     // Date non disponibili
     const [unavailableDates, setUnavailableDates] = useState(null);
+
+    const { state, dispatch } = useContext(AppContext);
 
     // Lista sedi
     const [siteList, setSiteList] = useState([]);
@@ -43,7 +44,7 @@ export default function Reservation(props) {
     // Disabilita nel DatePicker le date non disponibili
     const disabledDate = (current) => {
         // Date da disabilitare, ottenute dal server database
-        let datesToDisable = unavailableDates?.map(elem => elem.data);
+        let datesToDisable = unavailableDates?.map(elem => elem.data_disabilitata);
 
         // Data da disabilitare
         let date = datesToDisable?.find((elem) => moment(current).format('YYYY-MM-DD') === elem);
@@ -66,8 +67,17 @@ export default function Reservation(props) {
             });
     };
 
+    const getDisabledDates = (temp, value) => {
+        
+        postData('http://localhost:63342/server-side/nonDisponibili.php', { sede: value[1]?.id })
+            .then(data => {
+                setUnavailableDates(data)
+            });
+    }
+
     // Una volta montato il componente, fa un rischiesta al server database per ottenere le date non disponibili
     useEffect(() => {
+        dispatch({ type: 'change selectedKey', payload: { selectedKey: 'prenotazione' } });
         getData('http://localhost:63342/server-side/listaSedi.php').then(data => {
             setSiteList(Object.entries(data));
         });
@@ -77,7 +87,7 @@ export default function Reservation(props) {
         <>
             <Layout className="site-layout">
                 <Header className="layout-header">
-                    <h2>Portale prenotazioni</h2>
+                    <h2 className="header-title">Portale prenotazioni</h2>
                 </Header>
                 <Content className="layout-content">
                     <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
@@ -116,6 +126,7 @@ export default function Reservation(props) {
                                         }
                                     })
                                 }
+                                onChange={getDisabledDates}
                             />
                         </Form.Item>
 
