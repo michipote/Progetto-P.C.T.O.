@@ -1,10 +1,9 @@
 <?php
 include_once "./config.php";
-$_POST = json_decode(file_get_contents("php://input"), true);
-$sede = $_POST['sede'];
+$id_sede = $_POST['id_sede'];
 $sql = "SELECT fiscale, data, data_prenotazione
 FROM prenotazione
-WHERE prenotazione.fk_sede = '$sede'
+WHERE prenotazione.fk_sede = '$id_sede'
 AND prenotazione.stato = 0
 AND prenotazione.data_prenotazione >= CURRENT_DATE()
 ";
