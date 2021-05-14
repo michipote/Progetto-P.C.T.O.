@@ -15,6 +15,9 @@ export default function Reservation(props) {
     // Lista sedi
     const [siteList, setSiteList] = useState([]);
 
+    // Sede selezionato
+    const [selectedSite, setSelectedSite] = useState(null);
+
     // Limiti (min e max) del DatePicker, DAL GIORNO CORRENTE (OGGI)
     const min = 3;
     const max = 17;
@@ -59,16 +62,16 @@ export default function Reservation(props) {
 
     // Funzione chiamata una volta fatto il submit
     const onFinish = (values) => {
-        let formattedValues = { ...values, data: values.data.format('YYYY-MM-DD') };
+        let formattedValues = { fiscale: values.fiscale, data_prenotazione: values.data.format('YYYY-MM-DD'), id_sede: selectedSite };
 
-        postData('http://localhost:63342/server-side/lista_prenotazioni.php', formattedValues)
+        postData('http://localhost:63342/server-side/prenota.php', formattedValues)
             .then(data => {
-                // console.log(data); RISPOSTA
+                //TODO visualizzare codice QR
             });
     };
 
     const getDisabledDates = (temp, value) => {
-        
+        setSelectedSite(value[1]?.id);
         postData('http://localhost:63342/server-side/nonDisponibili.php', { sede: value[1]?.id })
             .then(data => {
                 setUnavailableDates(data)
@@ -92,7 +95,7 @@ export default function Reservation(props) {
                 <Content className="layout-content">
                     <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
                         <Form.Item
-                            name={['codice_fiscale']}
+                            name={['fiscale']}
                             label="Codice fiscale"
                             rules={[
                                 {
@@ -118,7 +121,7 @@ export default function Reservation(props) {
                         >
                             <Cascader
                                 options={
-                                    siteList.map(x => {
+                                    siteList.map((x, i) => {
                                         return {
                                             value: x[0],
                                             label: x[0],
