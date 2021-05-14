@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Form, Input, Button, InputNumber, DatePicker, Space, Dropdown, Menu, Select, Cascader } from 'antd';
+import { Form, Input, Button, InputNumber, DatePicker, Space, Dropdown, Menu, Select, Cascader, Result } from 'antd';
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import moment from "moment";
 import { AppContext } from "..";
@@ -18,30 +18,20 @@ export default function Reservation(props) {
     // Sede selezionato
     const [selectedSite, setSelectedSite] = useState(null);
 
+    const [response, setResponse] = useState({});
+
     // Limiti (min e max) del DatePicker, DAL GIORNO CORRENTE (OGGI)
     const min = 3;
     const max = 17;
 
     // Proprietà layout
     const layout = {
-        labelCol: { span: 2 },
-        wrapperCol: { span: 5 }
-    };
-
-    // Config del DatePicker
-    const config = {
-        rules: [
-            {
-                type: 'object',
-                required: true,
-                message: 'Scegli una data',
-            },
-        ],
-    };
-
-    // Messaggio visualizzato se trova dei campi vuoti, ma obbligatori
-    const validateMessages = {
-        required: 'Campo obbligatorio',
+        labelCol: {
+            span: 0,
+        },
+        wrapperCol: {
+            span: 5,
+        },
     };
 
     // Disabilita nel DatePicker le date non disponibili
@@ -66,11 +56,14 @@ export default function Reservation(props) {
 
         postData('http://localhost:63342/server-side/prenota.php', formattedValues)
             .then(data => {
-                //TODO visualizzare codice QR
+                setResponse(data);
             });
     };
 
     const getDisabledDates = (temp, value) => {
+        if (temp.length === 0) {
+            return;
+        }
         setSelectedSite(value[1]?.id);
         postData('http://localhost:63342/server-side/nonDisponibili.php', { sede: value[1]?.id })
             .then(data => {
@@ -93,7 +86,8 @@ export default function Reservation(props) {
                     <h2 className="header-title">Portale prenotazioni</h2>
                 </Header>
                 <Content className="layout-content">
-                    <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+                    <h4>Per prenotare un tampone, completa i seguenti campi</h4>
+                    <Form {...layout} name="nest-messages" onFinish={onFinish}>
                         <Form.Item
                             name={['fiscale']}
                             label="Codice fiscale"
@@ -114,8 +108,9 @@ export default function Reservation(props) {
                             name={['sede']}
                             label="Sede"
                             rules={[
-                                {
+                                {   
                                     required: true,
+                                    message: 'Seleziona una sede'
                                 },
                             ]}
                         >
@@ -133,16 +128,39 @@ export default function Reservation(props) {
                             />
                         </Form.Item>
 
-                        <Form.Item name={['data']} label="Data" {...config} >
+                        <Form.Item
+                            name={['data']}
+                            label="Data"
+                            rules={[
+                                {
+                                    type: 'object',
+                                    required: true,
+                                    message: 'Seleziona una data'
+                                },
+                            ]}>
                             <DatePicker placeholder="Scegli la data" format="DD MMMM YYYY" disabledDate={disabledDate} />
                         </Form.Item>
 
-                        <Form.Item wrapperCol={{ offset: 2 }}>
+                        <Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Prenota
                             </Button>
                         </Form.Item>
                     </Form>
+                    {
+                        response?.risultato === 'succ' ?
+                            <>
+                                <Result
+                                    status="success"
+                                    title="Prenotazione avvenuta con successo!"
+                                    extra={[
+                                        <img key='qr' src={"https://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=" + response?.univoco}></img>,
+                                        <h2 key='univoco'>{response?.univoco}</h2>
+                                    ]}
+                                />
+                            </>
+                            : null
+                    }
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
             </Layout>
