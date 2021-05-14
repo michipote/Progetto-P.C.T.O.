@@ -10,7 +10,7 @@ const { getData, postData } = require('../../ws');
 export default function Annulment(props) {
     const [form] = Form.useForm();
 
-    const {state, dispatch} = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
 
     //> Modal state
     const [modal, setModalState] = useState({
@@ -18,8 +18,8 @@ export default function Annulment(props) {
         visible: false,
     });
 
-    //> Chiave univoco
-    const [key, setKey] = useState(null)
+    //> Valori della prenotazione da cancellare
+    const [values, setValues] = useState({});
 
     //> Proprietà layout
     const formItemLayout = {
@@ -33,20 +33,12 @@ export default function Annulment(props) {
 
     //> Funzione chiamata una volta fatto la submit
     const onFinish = (values) => {
-        setKey(values.key);
-
+        setValues({ ...values });
         setModalState({ ...modal, visible: true });
-        //TODO fetch backend
-        //TODO Gestire risposta
     }
 
-    //> Messaggio visualizzato se trova dei campi vuoti, ma obbligatori
-    const validateMessages = {
-        required: 'Campo obbligatorio',
-    };
-
     useEffect(() => {
-        dispatch({type: 'change selectedKey', payload: {selectedKey: 'annullamento'}});
+        dispatch({ type: 'change selectedKey', payload: { selectedKey: 'annullamento' } });
     }, [])
 
     return (
@@ -61,14 +53,32 @@ export default function Annulment(props) {
                         {...formItemLayout}
                         layout={'horizontal'}
                         form={form}
-                        onFinish={onFinish} validateMessages={validateMessages}
+                        onFinish={onFinish}
                     >
                         <Form.Item
-                            name={['key']}
+                            name={['fiscale']}
+                            label="Codice fiscale"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Inserisci il codice fiscale'
+                                },
+                                {
+                                    min: 16,
+                                    message: 'Deve essere di 16 caratteri'
+                                }
+                            ]}
+                        >
+                            <Input maxLength={16} />
+                        </Form.Item>
+
+                        <Form.Item
+                            name={['univoco']}
                             label="Codice univoco"
                             rules={[
                                 {
                                     required: true,
+                                    message: 'Inserisci il codice univoco della prenotazione'
                                 },
                                 { min: 20, message: 'Il codice deve avere 20 caratteri' },
                             ]}
@@ -81,7 +91,7 @@ export default function Annulment(props) {
                                 Annulla prenotazione
                             </Button>
                         </Form.Item>
-                        <ConfirmModal modal={[modal, setModalState]} unique_key={key} />
+                        <ConfirmModal modal={[modal, setModalState]} values={values} />
                     </Form>
                 </Content>
                 <Footer className="page-footer">Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
