@@ -2,7 +2,7 @@
 include_once "./config.php";
 $fiscale = $_POST['fiscale'];
 $data_prenotazione = $_POST['data_prenotazione'];
-$id_sede = $_POST['sede'];
+$id_sede = $_POST['id_sede'];
 
 $sql = "
 SELECT data_prenotazione AS data_disabilitata
@@ -29,4 +29,5 @@ $data = [
 
 $sql = "INSERT INTO prenotazione (data, fiscale, univoco, data_prenotazione, stato, fk_sede) VALUES (CURRENT_DATE(), :fiscale, :univoco, :data_prenotazione, 0, :id_sede)";
 $pdo->prepare($sql)->execute($data);
-echo "{'risultato' : 'succ','univoco': '$univoco'}";
+
+echo json_encode(['risultato' => 'succ', 'univoco' => $univoco]);

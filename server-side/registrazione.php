@@ -1,17 +1,17 @@
 <?php
 include_once "./config.php";
-$_POST = json_decode(file_get_contents("php://input"), true);
 $nome = $_POST['nome'];
 $cognome = $_POST['cognome'];
 $fiscale = $_POST['fiscale'];
 $email = $_POST['email'];
 $password = $_POST['password'];
+
 $sql = "SELECT fiscale FROM account WHERE fiscale = '$fiscale'";
 $stmt = $pdo->query($sql);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if(count($result) !== 0){
     echo '{"result" : "failed",
-            "motivo" : "fiscale"}';
+            "motivo" : "Utente già registrato con questo codice fiscale"}';
     exit(0);
 }
 $sql = "SELECT email FROM account WHERE email = '$email'";
@@ -19,7 +19,7 @@ $stmt = $pdo->query($sql);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if(count($result) !== 0){
     echo '{"result" : "failed",
-            "motivo" : "email"}';
+            "motivo" : "Utente già registrato con questa email"}';
     exit(0);
 }
 $hash = password_hash($password, PASSWORD_DEFAULT);
