@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,18 +6,29 @@ const { getData, postData } = require('../../ws');
 
 //> Modale che appare per chiedere conferma all'utente
 export default function ExeConfirmModal(props) {
-    //> Annullamento della prenotazione
+    //> Tampone avvenuto con successo
+    const success = () => {
+        message.success('Tampone effettuato con successo');
+    };
+
+    //> Tampone fallito
+    const error = (msg) => {
+        message.error(msg);
+    };
+
+
+    //> Esecuzione del tampone
     const handleOk = () => {
         props.modal[1]({ ...props.modal[0], loading: true });
 
-        postData('http://localhost:63342/server-side/esegui_tampone.php', { codice: props.unique_key })
+        postData('http://localhost:63342/server-side/esegui_tampone.php', { ...props.values })
             .then(data => {
-                //  console.log(data); // RISPOSTA
-                 props.modal[1]({ visible: false, loading: false });
+                props.modal[1]({ visible: false, loading: false });
+                data.risultato === 'succ' ? success() : error(data.motivo);
             });
     };
 
-    //> Annullamento cancellato la prenotazione
+    //> Esecuzione del tampone annullata
     const handleCancel = () => {
         props.modal[1]({ visible: false, loading: false });
     };

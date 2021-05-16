@@ -10,7 +10,7 @@ export default function Execution(props) {
     const [form] = Form.useForm();
 
     //> App context
-    const {state, dispatch} = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
 
     //> Modal state
     const [modal, setModalState] = useState({
@@ -18,8 +18,7 @@ export default function Execution(props) {
         visible: false,
     });
 
-    //> Chiave univoco
-    const [key, setKey] = useState(null)
+    const [values, setValues] = useState({});
 
     //> Proprietà layout
     const formItemLayout = {
@@ -33,11 +32,9 @@ export default function Execution(props) {
 
     //> Funzione chiamata una volta fatto la submit
     const onFinish = (values) => {
-        setKey(values.key);
+        setValues({ ...values, id_operatore: state.user.id, id_sede: state.user.sede[0].id_sede });
 
         setModalState({ ...modal, visible: true });
-        //TODO fetch backend
-        //TODO Gestire risposta
     }
 
     //> Messaggio visualizzato se trova dei campi vuoti, ma obbligatori
@@ -46,7 +43,7 @@ export default function Execution(props) {
     };
 
     useEffect(() => {
-        dispatch({type: 'change selectedKey', payload: {selectedKey: 'esecuzione'}});
+        dispatch({ type: 'change selectedKey', payload: { selectedKey: 'esecuzione' } });
     }, [])
 
     return (
@@ -64,7 +61,7 @@ export default function Execution(props) {
                         onFinish={onFinish} validateMessages={validateMessages}
                     >
                         <Form.Item
-                            name={['key']}
+                            name={['univoco']}
                             label="Codice univoco"
                             rules={[
                                 {
@@ -81,7 +78,7 @@ export default function Execution(props) {
                                 Esegui tampone
                             </Button>
                         </Form.Item>
-                        <ExeConfirmModal modal={[modal, setModalState]} unique_key={key} />
+                        <ExeConfirmModal modal={[modal, setModalState]} values={values} />
                     </Form>
                 </Content>
                 <Footer className="page-footer">Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
