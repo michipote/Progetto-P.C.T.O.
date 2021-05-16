@@ -17,7 +17,8 @@ import ReservationsList from "./components/ReservationsList";
 import Execution from "./components/Execution/Execution";
 import InfectionMap from "./components/InfectionMap";
 import Vaccines from "./components/Vaccines";
-import {PublicRoute, PrivateRoute} from "./SpecialRoutes"
+import { PublicRoute, PrivateRoute } from "./SpecialRoutes"
+import Error403 from "./components/Error403";
 
 // Componente principale del app: definisce inoltre le rotte
 export default function App(props) {
@@ -44,18 +45,19 @@ export default function App(props) {
 
     return (
         <>
-            <ConfigProvider locale={localstate.locale}>
+            <ConfigProvider locale={localstate.Flocale}>
                 <IntlProvider locale={localstate.lang}>
                     <BaseLayout>
-                        <PublicRoute exact path="/situazione_vaccini" restricted={false} component={Vaccines} />
-                        <PublicRoute exact path="/mappa_contagio" restricted={false} component={InfectionMap} />
-                        <Route exact path="/esegui_tampone" component={Execution} />
-                        <PublicRoute exact path="/annullamento" restricted={false} component={Annulment} />
-                        <PublicRoute exact path="/prenotazione" restricted={false} component={Reservation} />
+                        <Route exact path="/error403" component={Error403} />
+                        <Route exact path="/situazione_vaccini" component={Vaccines} />
+                        <Route exact path="/mappa_contagio" component={InfectionMap} />
+                        <PrivateRoute exact path="/esegui_tampone" level={['1']} component={Execution} />
+                        <PrivateRoute exact path="/annullamento" level={['0']} all={true} component={Annulment} />
+                        <PrivateRoute exact path="/prenotazione" level={['0']} all={true} component={Reservation} />
                         <PublicRoute exact path="/registrazione" restricted={true} component={Registration} />
                         <PublicRoute exact path="/login" restricted={true} component={Login} />
-                        <Route exact path="/lista_prenotazioni" component={ReservationsList} />
-                        <PublicRoute exact path="/" restricted={false} component={Home} />
+                        <PrivateRoute exact path="/lista_prenotazioni" level={['0', '1', '2']} component={ReservationsList} />
+                        <Route exact path="/" component={Home} />
                     </BaseLayout>
                 </IntlProvider>
             </ConfigProvider>
