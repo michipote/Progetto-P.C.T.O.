@@ -1,17 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Input, Button, Checkbox, Image, Row, Col } from 'antd';
+import React, { useContext, useEffect, useState } from "react";
+import { Form, Input, Button, Checkbox, Image, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import { AppContext } from "..";
 import assets from "../assets/*.png";
-import { useState } from "react";
+import { Redirect } from "react-router";
+const { getData, postData } = require('../ws');
 
 export default function Login(props) {
     const { state, dispatch } = useContext(AppContext);
-    
-    const validateMessages = {
-        required: 'Campo obbligatorio'
-    }
+    const [response, setResponse] = useState({});
 
     const formItemLayout = {
         labelCol: {
@@ -38,15 +36,30 @@ export default function Login(props) {
         wrapperCol: { offset: 9, span: 0 },
     };
 
+    //> Login avvenuto con successo
+    const success = () => {
+        message.success('Login avvenuto con successo');
+    };
+
+    //> Login fallito
+    const error = (msg) => {
+        message.error(msg);
+    };
+
     const onFinish = (values) => {
-        // console.log(values);
-        dispatch({ type: 'login', payload: { email: values.email } });
-        //TODO fetch al backend
-        //TODO Salvare i dati nel context (comunque si deve gestire la risposta)
+        postData('http://localhost:63342/server-side/login.php', { ...values })
+            .then(data => {
+                data?.result === 'failed' ? error(data?.motivo) :
+                    (
+                        success(),
+                        dispatch({ type: 'login', payload: { user: { ...data } } }),
+                        localStorage.setItem('user', JSON.stringify({ ...data }))
+                    );
+            });
     };
 
     useEffect(() => {
-        dispatch({type: 'change selectedKey', payload: {selectedKey: 'login'}});
+        dispatch({ type: 'change selectedKey', payload: { selectedKey: 'login' } });
     }, [])
 
     return (
@@ -67,7 +80,6 @@ export default function Login(props) {
                         {...formItemLayout}
                         name="normal_login"
                         className="login-form"
-                        validateMessages={validateMessages}
                         onFinish={onFinish}
                     >
                         <Form.Item
@@ -79,6 +91,7 @@ export default function Login(props) {
                                 },
                                 {
                                     required: true,
+                                    message: "Inserisci l'email"
                                 },
                             ]}
                         >
@@ -90,6 +103,7 @@ export default function Login(props) {
                             rules={[
                                 {
                                     required: true,
+                                    message: 'Inserisci la password'
                                 },
                             ]}
                         >
@@ -103,6 +117,11 @@ export default function Login(props) {
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 Accedi
+                                {
+                                    state.user !== null ?
+                                        <Redirect to="/"></Redirect>
+                                        : null
+                                }
                             </Button>
                         </Form.Item>
 

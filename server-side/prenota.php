@@ -1,33 +1,33 @@
 <?php
 include_once "./config.php";
-$ritorno->codice = substr(uniqid(uniqid(), true), -30);
-$_POST = json_decode(file_get_contents("php://input"), true);
+$fiscale = $_POST['fiscale'];
+$data_prenotazione = $_POST['data_prenotazione'];
+$id_sede = $_POST['id_sede'];
+
+$sql = "
+SELECT data_prenotazione AS data_disabilitata
+FROM prenotazione
+WHERE prenotazione.fk_sede = '$id_sede'
+GROUP BY data_disabilitata
+HAVING COUNT(*) >= 10";
+$stmt = $pdo->query($sql);
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    if ($data_prenotazione === $row['data_disabilitata']) {
+        echo '{ "risultato" : "failed", "motivo" : "Data con limite di prenotazioni raggiunto" }';
+        exit(0);
+    }
+}
+
+$univoco = substr(uniqid(uniqid(), true), -30);
 $data = [
-    'fiscale' => $_POST['fiscale'],
-    'univoco' => $ritorno->codice,
-    'data_prenotazione' => $_POST['data'],
-    'sede' => $_POST['sede']
+    'fiscale' => $fiscale,
+    'univoco' => $univoco,
+    'data_prenotazione' => $data_prenotazione,
+    'id_sede' => $id_sede
 ];
-$sql = "SELECT COUNT(*) AS persone FROM prenotazione, sede WHERE data_prenotazione = :data_prenotazione AND sede.id = prenotazione.fk_sede";
-$stmt = $pdo->prepare($sql);
 
-$stmt->execute(
-    [
-        'data_prenotazione' => $data['data_prenotazione']
-    ]
-);
-$riga = $stmt->fetch();
+$sql = "INSERT INTO prenotazione (data, fiscale, univoco, data_prenotazione, stato, fk_sede) VALUES (CURRENT_DATE(), :fiscale, :univoco, :data_prenotazione, 0, :id_sede)";
+$pdo->prepare($sql)->execute($data);
 
-$numero_persone = $riga['persone'];
-
-if ($numero_persone >= 3)
-{
-    echo '{"result" : "failed"
-            "motivo" : "sedepiena"}';
-}
-else
-{
-    $sql = "INSERT INTO prenotazione (data, fiscale, univoco, data_prenotazione, stato, fk_sede) VALUES (current_date(), :fiscale, :univoco, :data_prenotazione, 0, :sede)";
-    $pdo->prepare($sql)->execute($data);
-    echo json_encode($ritorno);
-}
+echo json_encode(['risultato' => 'succ', 'univoco' => $univoco]);

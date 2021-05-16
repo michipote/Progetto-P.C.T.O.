@@ -11,7 +11,8 @@ import {
   UnorderedListOutlined,
   GlobalOutlined,
   DeleteOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import { Link, BrowserRouter } from "react-router-dom";
 import { AppContext } from "..";
@@ -28,10 +29,19 @@ export default function BaseLayout(props) {
 
   // Espande/Comprime il menu
   const toggleMenu = () => {
+    if (state.selectedKey === 'mappa_contagio' || state.selectedKey === 'situazione_vaccini') {
+      return;
+    }
+
     setState({
       collapsed: !localstate.collapsed
     });
   };
+
+  const logout = () => {
+    localStorage.clear();
+    location.reload();
+  }
 
   return (
     <>
@@ -46,36 +56,72 @@ export default function BaseLayout(props) {
             </div>
 
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} selectedKeys={[state.selectedKey]}>
-              <Menu.Item key="user" icon={<UserOutlined style={{ color: '#fec36b' }} />} disabled style={{ WebkitTextFillColor: '#fec36b' }}>
-                Karanbir Singh
-              </Menu.Item>
+              {
+                state.user !== null ?
+                  <Menu.Item key="user" icon={<UserOutlined style={{ color: '#fec36b' }} />} disabled style={{ WebkitTextFillColor: '#fec36b' }}>
+                    {state.user?.cognome + " " + state.user?.nome}
+                  </Menu.Item>
+                  : null
+              }
               <Menu.Item key="home" icon={<HomeOutlined />}>
                 <Link to="/">Home</Link>
               </Menu.Item>
-              <Menu.Item key="prenotazione" icon={<CalendarOutlined />}>
-                <Link to="/prenotazione">Prenota tampone</Link>
-              </Menu.Item>
-              <Menu.Item key="annullamento" icon={<DeleteOutlined />}>
-                <Link to="/annullamento">Annulla prenotazione</Link>
-              </Menu.Item>
-              {/* {
-                state.user.email === null ?
-                  <> */}
-              <Menu.Item key="registrazione" icon={<UserOutlined />}>
-                <Link to="/registrazione">Registrazione</Link>
-              </Menu.Item>
-              <Menu.Item key="login" icon={<LoginOutlined />}>
-                <Link to="/login">Login</Link>
-              </Menu.Item>
 
-              <Menu.Item key="lista_prenotazioni" icon={<UnorderedListOutlined />}>
-                <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
-              </Menu.Item>
-              <Menu.Item key="esecuzione" icon={<EditOutlined />}>
-                <Link to="/esegui_tampone">Esegui tampone</Link>
-              </Menu.Item>
-              {/* </> : null
-              } */}
+              {
+                state.user === null ?
+                  <>
+                    <Menu.Item key="registrazione" icon={<UserOutlined />}>
+                      <Link to="/registrazione">Registrazione</Link>
+                    </Menu.Item>
+                    <Menu.Item key="login" icon={<LoginOutlined />}>
+                      <Link to="/login">Login</Link>
+                    </Menu.Item>
+                    <Menu.Item key="prenotazione" icon={<CalendarOutlined />}>
+                      <Link to="/prenotazione">Prenota tampone</Link>
+                    </Menu.Item>
+                    <Menu.Item key="annullamento" icon={<DeleteOutlined />}>
+                      <Link to="/annullamento">Annulla prenotazione</Link>
+                    </Menu.Item>
+                  </>
+                  :
+                  state.user.tipo == '1' ?
+                    <>
+                      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+                        Logout
+                      </Menu.Item>
+                      <Menu.Item key="esecuzione" icon={<EditOutlined />}>
+                        <Link to="/esegui_tampone">Esegui tampone</Link>
+                      </Menu.Item>
+                      <Menu.Item key="lista_prenotazioni" icon={<UnorderedListOutlined />}>
+                        <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
+                      </Menu.Item>
+                    </>
+                    :
+                    state.user.tipo == '0' ?
+                      <>
+                        <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+                          Logout
+                        </Menu.Item>
+                        <Menu.Item key="prenotazione" icon={<CalendarOutlined />}>
+                          <Link to="/prenotazione">Prenota tampone</Link>
+                        </Menu.Item>
+                        <Menu.Item key="annullamento" icon={<DeleteOutlined />}>
+                          <Link to="/annullamento">Annulla prenotazione</Link>
+                        </Menu.Item>
+                        <Menu.Item key="lista_prenotazioni" icon={<UnorderedListOutlined />}>
+                          <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
+                        </Menu.Item>
+                      </> :
+                      <>
+                        <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+                          Logout
+                        </Menu.Item>
+                        <Menu.Item key="lista_prenotazioni" icon={<UnorderedListOutlined />}>
+                          <Link to="/lista_prenotazioni">Lista prenotazioni</Link>
+                        </Menu.Item>
+                      </>
+              }
+
               <Menu.Item key="mappa_contagio" icon={<ShareAltOutlined />}>
                 <Link to="/mappa_contagio">Mappa contagio</Link>
               </Menu.Item>

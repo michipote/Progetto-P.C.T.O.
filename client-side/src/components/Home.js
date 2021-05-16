@@ -27,38 +27,98 @@ export default function Home(props) {
         <Content className="layout-content">
           <div className="site-card-wrapper">
             <Row gutter={16}>
-              <Col span={8} xs={24} md={12} xl={8}>
-                <Card
-                  hoverable
-                  cover={<img alt="img_registrazione" src={assets.registrazione} />}
-                >
-                  <Meta title="Registrati nell'area riservata" description={<Button type="primary"><Link to="/registrazione">Procedi</Link></Button>} />
-                </Card>
-              </Col>
-              <Col span={8} xs={24} md={12} xl={8}>
-                <Card
-                  hoverable
-                  cover={<img alt="img_login" src={login} />}
-                >
-                  <Meta title="Accedi all'area riservata" description={<Button type="primary"><Link to="/login">Procedi</Link></Button>} />
-                </Card>
-              </Col>
-              <Col span={8} xs={24} md={12} xl={8}>
-                <Card
-                  hoverable
-                  cover={<img alt="img_prenotazione" src={assets.prenotazione} />}
-                >
-                  <Meta title="Servizio prenotazione Tampone COVID‑19" description={<Button type="primary"><Link to="/prenotazione">Prenota tampone</Link></Button>} />
-                </Card>
-              </Col>
-              <Col span={8} xs={24} md={12} xl={8}>
-                <Card
-                  hoverable
-                  cover={<img alt="img_annullamento" src={assets.annullamento} />}
-                >
-                  <Meta title="Annulla una prenotazione" description={<Button type="primary"><Link to="/annullamento">Procedi</Link></Button>} />
-                </Card>
-              </Col>
+              {
+                state.user === null ?
+                  <>
+                    <Col span={8} xs={24} md={12} xl={8}>
+                      <Card
+                        hoverable
+                        cover={<img alt="img_registrazione" src={assets.registrazione} />}
+                      >
+                        <Meta title="Registrati nell'area riservata" description={<Button type="primary"><Link to="/registrazione">Procedi</Link></Button>} />
+                      </Card>
+                    </Col>
+                    <Col span={8} xs={24} md={12} xl={8}>
+                      <Card
+                        hoverable
+                        cover={<img alt="img_login" src={login} />}
+                      >
+                        <Meta title="Accedi all'area riservata" description={<Button type="primary"><Link to="/login">Procedi</Link></Button>} />
+                      </Card>
+                    </Col>
+                    <Col span={8} xs={24} md={12} xl={8}>
+                      <Card
+                        hoverable
+                        cover={<img alt="img_prenotazione" src={assets.prenotazione} />}
+                      >
+                        <Meta title="Servizio prenotazione Tampone COVID‑19" description={<Button type="primary"><Link to="/prenotazione">Prenota tampone</Link></Button>} />
+                      </Card>
+                    </Col>
+                    <Col span={8} xs={24} md={12} xl={8}>
+                      <Card
+                        hoverable
+                        cover={<img alt="img_annullamento" src={assets.annullamento} />}
+                      >
+                        <Meta title="Annulla una prenotazione" description={<Button type="primary"><Link to="/annullamento">Procedi</Link></Button>} />
+                      </Card>
+                    </Col>
+                  </>
+                  :
+                  state.user.tipo == '1' ?
+                    <>
+                      <Col span={8} xs={24} md={12} xl={8}>
+                        <Card
+                          hoverable
+                          cover={<img alt="img_tampone" src={assets.tampone} />}
+                        >
+                          <Meta title="Esegui un tampone" description={<Button type="primary"><Link to="/esegui_tampone">Procedi</Link></Button>} />
+                        </Card>
+                      </Col>
+                    </>
+                    :
+                    state.user.tipo == '2' ?
+                      <>
+
+                      </>
+                      : state.user.tipo == '0' ?
+                        <>
+                          <Col span={8} xs={24} md={12} xl={8}>
+                            <Card
+                              hoverable
+                              cover={<img alt="img_prenotazione" src={assets.prenotazione} />}
+                            >
+                              <Meta title="Servizio prenotazione Tampone COVID‑19" description={<Button type="primary"><Link to="/prenotazione">Prenota tampone</Link></Button>} />
+                            </Card>
+                          </Col>
+                          <Col span={8} xs={24} md={12} xl={8}>
+                            <Card
+                              hoverable
+                              cover={<img alt="img_annullamento" src={assets.annullamento} />}
+                            >
+                              <Meta title="Annulla una prenotazione" description={<Button type="primary"><Link to="/annullamento">Procedi</Link></Button>} />
+                            </Card>
+                          </Col>
+                        </>
+                        :
+                        <>
+                          <Col span={8} xs={24} md={12} xl={8}>
+                            <Card
+                              hoverable
+                              cover={<img alt="img_prenotazione" src={assets.prenotazione} />}
+                            >
+                              <Meta title="Servizio prenotazione Tampone COVID‑19" description={<Button type="primary"><Link to="/prenotazione">Prenota tampone</Link></Button>} />
+                            </Card>
+                          </Col>
+                          <Col span={8} xs={24} md={12} xl={8}>
+                            <Card
+                              hoverable
+                              cover={<img alt="img_annullamento" src={assets.annullamento} />}
+                            >
+                              <Meta title="Annulla una prenotazione" description={<Button type="primary"><Link to="/annullamento">Procedi</Link></Button>} />
+                            </Card>
+                          </Col>
+                        </>
+              }
               <Col span={8} xs={24} md={12} xl={8}>
                 <Card
                   hoverable

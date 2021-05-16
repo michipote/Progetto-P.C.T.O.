@@ -15,24 +15,33 @@ function appReducer(state, action) {
   let newState = { ...state };
   switch (action.type) {
     case 'login':
-      newState.user.email = action.payload.email
+      newState.user = action.payload.user
       break;
     case 'change selectedKey':
       newState.selectedKey = action.payload.selectedKey
       break;
+      case 'logout':
+        newState.user = action.payload.user
+        break;
   }
   return newState;
 }
 
 function Index() {
   // Reducer del app
-  const [state, dispatch] = useReducer(appReducer, {  
+  const [state, dispatch] = useReducer(appReducer, {
     user: {
-      email: null,
-      level: null,
+      id: null,
+      nome: null,
+      cognome: null,
+      tipo: null
     },
     selectedKey: 'home'
   });
+
+  useEffect(() => {
+    dispatch({ type: 'login', payload: { user: JSON.parse(localStorage.getItem('user')) } });
+  }, [])
 
   return (
     <>
@@ -48,6 +57,3 @@ ReactDOM.render(
   <Index />
   , rootElement
 );
-
-// Fetch URL
-// http://localhost:63342/server-side/
