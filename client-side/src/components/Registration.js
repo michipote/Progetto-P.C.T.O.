@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Form, Input, Button, Image, Row, Col } from 'antd';
+import { Form, Input, Button, Image, Row, Col, message } from 'antd';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import assets from "../assets/*.png";
 import { BarcodeOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { AppContext } from '..';
+import { Redirect } from 'react-router';
+const { getData, postData } = require('../ws');
 
 export default function Registration(props) {
     const [form] = Form.useForm();
-    const {state, dispatch} = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
+
+    const [response, setResponse] = useState({});
 
     const formItemLayout = {
         wrapperCol: {
@@ -35,13 +39,25 @@ export default function Registration(props) {
         },
     };
 
+    //> La registrazione è avvenuta con successo
+    const success = () => {
+        message.success('Registrazione avvenuta con successo');
+    };
+
+    //> La registrazione è fallita
+    const error = (msg) => {
+        message.error(msg);
+    };
+
     useEffect(() => {
-        dispatch({type: 'change selectedKey', payload: {selectedKey: 'registrazione'}});
+        dispatch({ type: 'change selectedKey', payload: { selectedKey: 'registrazione' } });
     }, [])
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
-        //TODO fetch al backend
+        postData('http://localhost:63342/server-side/registrazione.php', { ...values })
+            .then(data => {
+                data?.result === 'failed' ? error(data?.motivo) : (success(), setResponse(data));
+            });
     };
 
     return (
@@ -59,7 +75,7 @@ export default function Registration(props) {
                             </Col>
                             <Col span={8}></Col>
                         </Row>
-                        
+
                         <Form
                             {...formItemLayout}
                             form={form}
@@ -76,7 +92,7 @@ export default function Registration(props) {
                                     }
                                 ]}
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nome" style={{marginTop: 20}} />
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nome" style={{ marginTop: 20 }} />
                             </Form.Item>
 
                             <Form.Item
@@ -98,6 +114,10 @@ export default function Registration(props) {
                                         required: true,
                                         message: 'Inserisci il codice fiscale'
                                     },
+                                    {
+                                        min: 16,
+                                        message: 'Deve essere di 16 caratteri'
+                                    }
                                 ]}
                             >
                                 <Input prefix={<BarcodeOutlined className="site-form-item-icon" />} placeholder="Codice Fiscale" maxLength={16} />
@@ -158,12 +178,16 @@ export default function Registration(props) {
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" htmlType="submit">
                                     Registrati
+                                    {
+                                        response?.result === 'succ' ?
+                                            <Redirect to="/login"></Redirect>
+                                            : null
+                                    }
                                 </Button>
                             </Form.Item>
                         </Form>
                     </div>
                 </Content>
-
                 <Footer style={{ textAlign: 'center' }}>Copyright © 2021 Singh Karanbir, Michele Potettu, Patrik Maniu, Vasile Laura. All rights riserved.</Footer>
             </Layout>
         </>
