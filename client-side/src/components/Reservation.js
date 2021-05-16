@@ -3,6 +3,8 @@ import { Form, Input, Button, InputNumber, DatePicker, Space, Dropdown, Menu, Se
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import moment from "moment";
 import { AppContext } from "..";
+import Paragraph from "antd/lib/skeleton/Paragraph";
+import { CloseCircleOutlined } from "@ant-design/icons";
 const { getData, postData } = require('../ws');
 
 // Form di prenotazione
@@ -100,7 +102,8 @@ export default function Reservation(props) {
                                     message: 'Deve essere di 16 caratteri'
                                 }
                             ]}
-                        >
+                            initialValue={state?.user?.fiscale}
+                        >   
                             <Input maxLength={16} />
                         </Form.Item>
 
@@ -108,7 +111,7 @@ export default function Reservation(props) {
                             name={['sede']}
                             label="Sede"
                             rules={[
-                                {   
+                                {
                                     required: true,
                                     message: 'Seleziona una sede'
                                 },
@@ -124,6 +127,7 @@ export default function Reservation(props) {
                                         }
                                     })
                                 }
+                                placeholder="Seleziona una sede"
                                 onChange={getDisabledDates}
                             />
                         </Form.Item>
@@ -149,16 +153,25 @@ export default function Reservation(props) {
                     </Form>
                     {
                         response?.risultato === 'succ' ?
-                            <>
-                                <Result
-                                    status="success"
-                                    title="Prenotazione avvenuta con successo!"
-                                    extra={[
-                                        <img key='qr' src={"https://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=" + response?.univoco}></img>,
-                                        <h2 key='univoco'>{response?.univoco}</h2>
-                                    ]}
-                                />
-                            </>
+                            <Result
+                                status="success"
+                                title="Prenotazione avvenuta con successo!"
+                                subTitle="Scannerizza il codice QR per ottenere il codice univoco della prenotazione."
+                                extra={[
+                                    <img key='qr' src={"https://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=" + response?.univoco}></img>,
+                                    <h2 key='univoco'>{response?.univoco}</h2>
+                                ]}
+                            />
+                            : null
+                    }
+                    {
+                        response?.risultato === 'failed' ?
+                            <Result
+                                status="error"
+                                title="Prenotazione fallita"
+                                subTitle={response?.motivo}
+                            >
+                            </Result>
                             : null
                     }
                 </Content>
