@@ -15,6 +15,12 @@ if (count($stmt->fetchAll(PDO::FETCH_ASSOC)) === 0) {
     exit(0);
 }
 
+$stmt = $pdo->query("SELECT * FROM prenotazione WHERE univoco = '$univoco' AND stato = 0");
+if (count($stmt->fetchAll(PDO::FETCH_ASSOC)) === 0) {
+    echo '{ "risultato" : "failed", "motivo" : "Prenotazione già annullata o eseguita"}';
+    exit(0);
+}
+
 $data = [
     'codice_prenotazione' => $univoco,
     'fiscale' => $fiscale

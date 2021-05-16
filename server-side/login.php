@@ -25,9 +25,8 @@ if ($result['tipo'] == 1) {
                   AND assegnato.fk_staff = '$id_account'
                 ORDER BY assegnato.data DESC";
     $stmt = $pdo->query($sql);
-    $result['sede'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result['sede'] =   $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-unset($result['fiscale']);
 unset($result['email']);
 unset($result['password']);
 echo json_encode($result);
