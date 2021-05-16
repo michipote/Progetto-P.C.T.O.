@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,18 +6,28 @@ const { getData, postData } = require('../../ws');
 
 //> Modale che appare per chiedere conferma all'utente
 export default function ConfirmModal(props) {
+
+    //> L'annullamento è avvenuto con successo
+    const success = () => {
+        message.success('Prenotazione annullata con successo');
+    };
+
+    //> L'annullamento è fallito
+    const error = (msg) => {
+        message.error(msg);
+    };
+
     //> Annullamento della prenotazione
     const handleOk = () => {
         props.modal[1]({ ...props.modal[0], loading: true });
-
-        postData('http://localhost:63342/server-side/annulla_prenotazione.php', { codice: props.unique_key })
+        postData('http://localhost:63342/server-side/annulla_prenotazione.php', { ...props.values })
             .then(data => {
-                 console.log(data); // RISPOSTA
-                 props.modal[1]({ visible: false, loading: false });
+                props.modal[1]({ visible: false, loading: false });
+                data.risultato === 'succ' ? success() : error(data.motivo);
             });
     };
 
-    //> Annullamento cancellato la prenotazione
+    //> Annullamento della prenotazione non eseguito
     const handleCancel = () => {
         props.modal[1]({ visible: false, loading: false });
     };
